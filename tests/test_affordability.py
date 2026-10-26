@@ -24,7 +24,7 @@ class SalareeCalculationTests(unittest.TestCase):
         baseline = salaree.calculate(self.region, people=1)
         custom = salaree.calculate(self.region, people=1, wage=baseline['monthly_wage'] * 2)
         self.assertEqual(custom['basket_cost'], baseline['basket_cost'])
-        self.assertEqual(custom['ratio_percent'], round(baseline['ratio_percent'] / 2, 1))
+        self.assertEqual(custom['ratio_percent'], round(custom['basket_cost'] / custom['monthly_wage'] * 100, 1))
     def test_dataset_is_explicitly_demo(self):
         self.assertTrue(self.dataset['metadata']['is_demo'])
         self.assertEqual(self.dataset['metadata']['dataset_status'], 'DEMO')
@@ -45,3 +45,31 @@ class SalareeApiTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class SalareeAKGTests(unittest.TestCase):
+    def setUp(self):
+        self.client = salaree.app.test_client()
+
+    def test_akg_reference_has_all_age_groups(self):
+        response = self.client.get('/api/akg')
+        self.assertEqual(response.status_code, 200)
+        profiles = response.json['profiles']
+        self.assertGreaterEqual(len(profiles), 20)
+        ids = {profile['id'] for profile in profiles}
+        self.assertIn('0-5-bulan', ids)
+        self.assertIn('6-11-bulan', ids)
+        self.assertIn('laki-laki-19-29', ids)
+        self.assertIn('perempuan-19-29', ids)
+
+    def test_household_akg_totals_are_aggregated(self):
+        response = self.client.post('/api/akg/calculate', json={'members':[{'profile_id':'0-5-bulan','count':1},{'profile_id':'laki-laki-19-29','count':2}]})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json['member_count'], 3)
+        self.assertEqual(response.json['daily_household_targets']['energy_kcal'], 550 + 2650 * 2)
+
+    def test_household_akg_rejects_invalid_profile(self):
+        response = self.client.post('/api/akg/calculate', json={'members':[{'profile_id':'made-up','count':1}]})
+        self.assertEqual(response.status_code, 400)
+
+[executed on device: debian (9ce94519-af8a-41b2-8c58-eb703c6c13ee)]
