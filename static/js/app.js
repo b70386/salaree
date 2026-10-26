@@ -19,3 +19,65 @@ $('plusPeople').addEventListener('click',() => {$('calcPeople').value = Math.min
 $('calcWage').addEventListener('change',calculateNow);
 $('calcPeople').addEventListener('change',() => {$('calcPeople').value=Math.max(1,Math.min(20,Math.round(Number($('calcPeople').value)||1)));calculateNow();});
 init();
+
+
+// AKG reference calculator. These are reference targets, not a meal prescription.
+let akgProfiles = [];
+let akgMembers = [];
+const akgNumber = (value) => new Intl.NumberFormat('id-ID', {maximumFractionDigits:1}).format(Number(value)||0);
+async function initAKG() {
+  try {
+    const data = await getJSON('/api/akg');
+    akgProfiles = data.profiles || [];
+    $('akgProfile').innerHTML = akgProfiles.map(p => '<option value="'+escapeHTML(p.id)+'">'+escapeHTML(p.label)+'</option>').join('');
+    $('akgProfileNote').textContent = 'Sumber: '+data.metadata.regulation+'. Nilai adalah referensi per orang per hari.';
+    $('akgProfile').addEventListener('change', renderAKGProfile);
+    $('akgAddBtn').addEventListener('click', addAKGMember);
+    $('akgResetBtn').addEventListener('click', () => { akgMembers = []; renderAKGMembers(); });
+    renderAKGProfile();
+  } catch (error) {
+    $('akgProfileNote').textContent = 'Referensi AKG gagal dimuat: '+error.message;
+  }
+}
+function renderAKGProfile() {
+  const profile = akgProfiles.find(p => p.id === $('akgProfile').value);
+  if (!profile) return;
+  $('akgProfileNote').textContent = profile.label+': '+akgNumber(profile.energy_kcal)+' kkal, protein '+akgNumber(profile.protein_g)+' g, lemak '+akgNumber(profile.fat_g)+' g per hari. Nilai ini berdasarkan berat/tinggi rujukan AKG.';
+}
+async function addAKGMember() {
+  const profileId = $('akgProfile').value;
+  const count = Number($('akgCount').value);
+  if (!profileId || !Number.isInteger(count) || count < 1 || count > 20 || akgMembers.reduce((n,m)=>n+m.count,0)+count > 20) {
+    toast('Jumlah anggota harus 1–20 orang secara keseluruhan.'); return;
+  }
+  const existing = akgMembers.find(m => m.profile_id === profileId);
+  if (existing) existing.count += count;
+  else akgMembers.push({profile_id:profileId,count});
+  await renderAKGMembers();
+}
+async function removeAKGMember(index) {
+  akgMembers.splice(index,1);
+  await renderAKGMembers();
+}
+async function renderAKGMembers() {
+  if (!akgMembers.length) {
+    $('akgMembers').innerHTML = '<p class="loading">Belum ada kelompok anggota keluarga yang ditambahkan.</p>';
+    $('akgTotals').innerHTML = '<p class="loading">Tambahkan kelompok umur untuk menghitung target gabungan.</p>';
+    return;
+  }
+  $('akgMembers').innerHTML = akgMembers.map((m,i) => {
+    const p = akgProfiles.find(profile => profile.id === m.profile_id);
+    return '<div class="akg-member"><span><strong>'+escapeHTML(p?.label || m.profile_id)+'</strong><small>'+m.count+' orang</small></span><button class="row-action" type="button" data-akg-remove="'+i+'" aria-label="Hapus kelompok">Hapus</button></div>';
+  }).join('');
+  document.querySelectorAll('[data-akg-remove]').forEach(btn => btn.addEventListener('click', () => removeAKGMember(Number(btn.dataset.akgRemove))));
+  try {
+    const result = await getJSON('/api/akg/calculate',{method:'POST',body:JSON.stringify({members:akgMembers})});
+    const fields = [
+      ['energy_kcal','Energi','kkal'],['protein_g','Protein','g'],['fat_g','Lemak total','g'],['carbohydrate_g','Karbohidrat','g'],['fiber_g','Serat','g'],['water_ml','Air total','ml']
+    ];
+    $('akgTotals').innerHTML = '<div class="akg-metrics">'+fields.map(([key,label,unit]) => '<div class="akg-metric"><span>'+label+'</span><strong>'+akgNumber(result.daily_household_targets[key])+' <small>'+unit+'/hari</small></strong><em>'+akgNumber(result.monthly_household_targets[key])+' '+unit+'/30 hari</em></div>').join('')+'</div><p class="akg-small">Jumlah orang: '+result.member_count+'. Total adalah penjumlahan target referensi, bukan jumlah makanan yang harus dibeli. '+escapeHTML(result.warning)+'</p>';
+  } catch (error) { toast(error.message); }
+}
+initAKG();
+
+[executed on device: debian (9ce94519-af8a-41b2-8c58-eb703c6c13ee)]
