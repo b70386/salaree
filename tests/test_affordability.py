@@ -71,5 +71,3 @@ class SalareeAKGTests(unittest.TestCase):
     def test_household_akg_rejects_invalid_profile(self):
         response = self.client.post('/api/akg/calculate', json={'members':[{'profile_id':'made-up','count':1}]})
         self.assertEqual(response.status_code, 400)
-
-[executed on device: debian (9ce94519-af8a-41b2-8c58-eb703c6c13ee)]
