@@ -143,5 +143,3 @@ if __name__ == "__main__":
     init_db()
     # Loopback-only by default; do not expose this development server to the LAN.
     app.run(host="127.0.0.1", port=int(os.environ.get("PORT", "7777")), debug=False)
-
-[executed on device: debian (9ce94519-af8a-41b2-8c58-eb703c6c13ee)]
