@@ -70,5 +70,3 @@ python -m unittest discover -s tests -v
 
 ## Lisensi
 MIT. Lihat [LICENSE](LICENSE).
-
-[executed on device: debian (9ce94519-af8a-41b2-8c58-eb703c6c13ee)]
