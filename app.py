@@ -10,6 +10,7 @@ from flask import Flask, jsonify, render_template, request
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_FILE = BASE_DIR / "data" / "demo_data.json"
+AKG_FILE = BASE_DIR / "data" / "akg_2019.json"
 DB_FILE = Path(os.environ.get("SALAREE_DB", BASE_DIR / "salaree.db"))
 app = Flask(__name__)
 
@@ -47,9 +48,47 @@ def index():
     return render_template("index.html")
 
 
+def load_akg_dataset() -> dict[str, Any]:
+    with AKG_FILE.open("r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+@app.get("/api/akg")
+def akg_reference():
+    dataset = load_akg_dataset()
+    return jsonify({"metadata": dataset["metadata"], "nutrients": dataset["nutrients"], "profiles": dataset["profiles"]})
+
+
+@app.post("/api/akg/calculate")
+def calculate_akg_household():
+    payload = request.get_json(silent=True) or {}
+    members = payload.get("members", [])
+    if not isinstance(members, list) or not members or len(members) > 20:
+        return jsonify({"error": "Masukkan 1–20 anggota keluarga."}), 400
+    dataset = load_akg_dataset()
+    profiles = {profile["id"]: profile for profile in dataset["profiles"]}
+    totals = {nutrient["key"]: 0 for nutrient in dataset["nutrients"]}
+    breakdown = []
+    try:
+        for member in members:
+            if not isinstance(member, dict):
+                raise ValueError
+            profile_id = str(member.get("profile_id", ""))
+            count = int(member.get("count", 1))
+            if profile_id not in profiles or count < 1 or count > 20:
+                raise ValueError
+            profile = profiles[profile_id]
+            for key in totals:
+                totals[key] += profile[key] * count
+            breakdown.append({"profile_id": profile_id, "label": profile["label"], "count": count, "daily_targets": {key: profile[key] * count for key in totals}})
+    except (TypeError, ValueError, KeyError):
+        return jsonify({"error": "Profil atau jumlah anggota tidak valid."}), 400
+    return jsonify({"metadata": dataset["metadata"], "member_count": sum(row["count"] for row in breakdown), "daily_household_targets": totals, "monthly_household_targets": {key: round(value * 30, 1) for key, value in totals.items()}, "breakdown": breakdown, "warning": "Ini adalah penjumlahan target referensi AKG, bukan bukti bahwa kombinasi komoditas tertentu memenuhi seluruh kebutuhan gizi. Bayi, kehamilan/menyusui, aktivitas, dan kondisi kesehatan memerlukan perhatian khusus."})
+
+
 @app.get("/api/health")
 def health():
-    return jsonify({"status": "ok", "app": "Salaree", "dataset_status": load_dataset()["metadata"]["dataset_status"]})
+    return jsonify({"status": "ok", "app": "Salaree", "dataset_status": load_dataset()["metadata"]["dataset_status"], "akg_status": load_akg_dataset()["metadata"]["dataset_status"]})
 
 
 @app.get("/api/regions")
@@ -104,3 +143,5 @@ if __name__ == "__main__":
     init_db()
     # Loopback-only by default; do not expose this development server to the LAN.
     app.run(host="127.0.0.1", port=int(os.environ.get("PORT", "7777")), debug=False)
+
+[executed on device: debian (9ce94519-af8a-41b2-8c58-eb703c6c13ee)]
