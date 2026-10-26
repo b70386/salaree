@@ -1,0 +1,223 @@
+{
+  "metadata": {
+    "dataset_status": "DEMO",
+    "is_demo": true,
+    "description": "Semua angka di file ini adalah simulasi untuk demonstrasi UI dan rumus; bukan data aktual resmi.",
+    "last_updated": null,
+    "price_source": null,
+    "wage_source": null,
+    "currency": "IDR"
+  },
+  "commodities": [
+    {
+      "id": "rice",
+      "name": "Beras",
+      "unit": "kg",
+      "monthly_qty_per_person": 7
+    },
+    {
+      "id": "eggs",
+      "name": "Telur ayam",
+      "unit": "kg",
+      "monthly_qty_per_person": 1.5
+    },
+    {
+      "id": "chicken",
+      "name": "Daging ayam",
+      "unit": "kg",
+      "monthly_qty_per_person": 1.5
+    },
+    {
+      "id": "cooking_oil",
+      "name": "Minyak goreng",
+      "unit": "liter",
+      "monthly_qty_per_person": 1
+    },
+    {
+      "id": "sugar",
+      "name": "Gula pasir",
+      "unit": "kg",
+      "monthly_qty_per_person": 0.5
+    },
+    {
+      "id": "shallot",
+      "name": "Bawang merah",
+      "unit": "kg",
+      "monthly_qty_per_person": 0.5
+    },
+    {
+      "id": "garlic",
+      "name": "Bawang putih",
+      "unit": "kg",
+      "monthly_qty_per_person": 0.3
+    },
+    {
+      "id": "chili",
+      "name": "Cabai merah",
+      "unit": "kg",
+      "monthly_qty_per_person": 0.3
+    }
+  ],
+  "regions": [
+    {
+      "id": "demo-jakarta",
+      "name": "DKI Jakarta (simulasi)",
+      "province": "DKI Jakarta",
+      "city": null,
+      "wage_type": "UMP",
+      "monthly_wage": 5000000,
+      "source": "DEMO — bukan angka resmi",
+      "effective_date": null,
+      "prices": {
+        "rice": 15000,
+        "eggs": 30000,
+        "chicken": 40000,
+        "cooking_oil": 18000,
+        "sugar": 18000,
+        "shallot": 40000,
+        "garlic": 38000,
+        "chili": 50000
+      }
+    },
+    {
+      "id": "demo-jabar",
+      "name": "Jawa Barat (simulasi)",
+      "province": "Jawa Barat",
+      "city": null,
+      "wage_type": "UMP",
+      "monthly_wage": 2500000,
+      "source": "DEMO — bukan angka resmi",
+      "effective_date": null,
+      "prices": {
+        "rice": 14000,
+        "eggs": 29000,
+        "chicken": 38000,
+        "cooking_oil": 17000,
+        "sugar": 17500,
+        "shallot": 35000,
+        "garlic": 36000,
+        "chili": 45000
+      }
+    },
+    {
+      "id": "demo-jateng",
+      "name": "Jawa Tengah (simulasi)",
+      "province": "Jawa Tengah",
+      "city": null,
+      "wage_type": "UMP",
+      "monthly_wage": 2200000,
+      "source": "DEMO — bukan angka resmi",
+      "effective_date": null,
+      "prices": {
+        "rice": 13500,
+        "eggs": 28000,
+        "chicken": 37000,
+        "cooking_oil": 17000,
+        "sugar": 17000,
+        "shallot": 32000,
+        "garlic": 35000,
+        "chili": 42000
+      }
+    },
+    {
+      "id": "demo-jatim",
+      "name": "Jawa Timur (simulasi)",
+      "province": "Jawa Timur",
+      "city": null,
+      "wage_type": "UMP",
+      "monthly_wage": 2300000,
+      "source": "DEMO — bukan angka resmi",
+      "effective_date": null,
+      "prices": {
+        "rice": 14000,
+        "eggs": 28500,
+        "chicken": 37500,
+        "cooking_oil": 17000,
+        "sugar": 17000,
+        "shallot": 33000,
+        "garlic": 35000,
+        "chili": 43000
+      }
+    },
+    {
+      "id": "demo-bali",
+      "name": "Bali (simulasi)",
+      "province": "Bali",
+      "city": null,
+      "wage_type": "UMP",
+      "monthly_wage": 2800000,
+      "source": "DEMO — bukan angka resmi",
+      "effective_date": null,
+      "prices": {
+        "rice": 15500,
+        "eggs": 31000,
+        "chicken": 42000,
+        "cooking_oil": 19000,
+        "sugar": 18500,
+        "shallot": 40000,
+        "garlic": 40000,
+        "chili": 55000
+      }
+    },
+    {
+      "id": "demo-sumut",
+      "name": "Sumatera Utara (simulasi)",
+      "province": "Sumatera Utara",
+      "city": null,
+      "wage_type": "UMP",
+      "monthly_wage": 3000000,
+      "source": "DEMO — bukan angka resmi",
+      "effective_date": null,
+      "prices": {
+        "rice": 14500,
+        "eggs": 28500,
+        "chicken": 39000,
+        "cooking_oil": 17500,
+        "sugar": 17500,
+        "shallot": 35000,
+        "garlic": 37000,
+        "chili": 40000
+      }
+    },
+    {
+      "id": "demo-sulut",
+      "name": "Sulawesi Utara (simulasi)",
+      "province": "Sulawesi Utara",
+      "city": null,
+      "wage_type": "UMP",
+      "monthly_wage": 3600000,
+      "source": "DEMO — bukan angka resmi",
+      "effective_date": null,
+      "prices": {
+        "rice": 16000,
+        "eggs": 32000,
+        "chicken": 43000,
+        "cooking_oil": 20000,
+        "sugar": 19000,
+        "shallot": 42000,
+        "garlic": 40000,
+        "chili": 60000
+      }
+    },
+    {
+      "id": "demo-papua",
+      "name": "Papua (simulasi)",
+      "province": "Papua",
+      "city": null,
+      "wage_type": "UMP",
+      "monthly_wage": 4000000,
+      "source": "DEMO — bukan angka resmi",
+      "effective_date": null,
+      "prices": {
+        "rice": 19000,
+        "eggs": 38000,
+        "chicken": 55000,
+        "cooking_oil": 23000,
+        "sugar": 22000,
+        "shallot": 50000,
+        "garlic": 48000,
+        "chili": 70000
+      }
+    }
+  ]
+}
