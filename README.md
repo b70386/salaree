@@ -45,8 +45,14 @@ Buka **http://127.0.0.1:7777**. Server secara default hanya bind ke loopback, bu
 - GET /api/regions/<region_id>
 - POST /api/calculate
 
-## Sumber data yang direncanakan
+## Sumber data dan batasan akurasi
 Sebelum dipublikasikan sebagai data aktual, tiap record perlu mencatat sumber, tanggal berlaku/pengamatan, satuan, tingkat wilayah, serta status verifikasi.
+- AKG: [Permenkes RI No. 28 Tahun 2019](https://jdih.kemkes.go.id/documents/peraturan-menteri-kesehatan-nomor-28-tahun-2019). Modul saat ini baru memuat energi, protein, lemak, karbohidrat, serat, dan air; vitamin/mineral serta penyesuaian hamil/menyusui belum lengkap.
+- Komposisi pangan: [Tabel Komposisi Pangan Segar Indonesia — Badan Pangan Nasional](https://badanpangan.go.id/tabel-komposisi-pangan-segar-indonesia). Nilai dapat berbeda menurut varietas, kematangan, asal, dan pengolahan.
+- Harga pangan: [SiPangan — Badan Pangan Nasional](https://sipangan.badanpangan.go.id/portal/pdi/panel-harga). Harga demo pada aplikasi belum diganti dengan data harga live tervalidasi.
+
+## Atribusi ikon
+Ikon cash-flow terinspirasi dari gambar yang diberikan pengguna. Atribusi yang diminta: [Cash flow icons created by Magnific - Flaticon](https://www.flaticon.com/free-icons/cash-flow).
 - UMP/UMK: [Satudata Kemnaker](https://satudata.kemnaker.go.id/) dan keputusan gubernur yang berlaku.
 - Harga pangan: [PIHPS Bank Indonesia](https://www.bi.go.id/hargapangan/) dan [Panel Harga Pangan Badan Pangan Nasional](https://panelharga.badanpangan.go.id/).
 - Data statistik pendukung: [Badan Pusat Statistik](https://www.bps.go.id/).
