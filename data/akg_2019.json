@@ -4,14 +4,17 @@
     "is_demo": false,
     "title": "Angka Kecukupan Gizi yang Dianjurkan untuk Masyarakat Indonesia",
     "regulation": "Permenkes RI Nomor 28 Tahun 2019",
-    "source_url": "https://jdih.kemkes.go.id/storage/documents/pdfs/2019permenkes028.pdf",
+    "source_url": "https://jdih.kemkes.go.id/documents/peraturan-menteri-kesehatan-nomor-28-tahun-2019",
     "source_status_checked": "2026-10-26",
     "notes": [
       "Nilai referensi per orang per hari, bukan diagnosis atau resep diet personal.",
       "Bayi 0–5 bulan: kebutuhan gizi dipenuhi melalui pemberian ASI eksklusif sesuai pedoman kesehatan; jangan mengubah nilai ini menjadi paket komoditas biasa.",
       "AKG tabel utama belum mencakup vitamin dan mineral dalam modul kalkulator ini; perlu ditambahkan dari lampiran resmi sebelum mengklaim cakupan penuh.",
       "Kehamilan, menyusui, aktivitas fisik, kondisi kesehatan, dan variasi individu membutuhkan penyesuaian."
-    ]
+    ],
+    "food_composition_source_url": "https://badanpangan.go.id/tabel-komposisi-pangan-segar-indonesia",
+    "price_source_url": "https://sipangan.badanpangan.go.id/portal/pdi/panel-harga",
+    "scope": "AKG tabel energi/protein/lemak/karbohidrat/serat/air saja; vitamin/mineral, kehamilan/menyusui, aktivitas individual belum lengkap."
   },
   "nutrients": [
     {
@@ -380,7 +383,7 @@
       "energy_kcal": 1550,
       "protein_g": 58,
       "fat_g": 45,
-      "omega3_g": 1.0,
+      "omega3_g": 1.1,
       "omega6_g": 11,
       "carbohydrate_g": 230,
       "fiber_g": 22,
@@ -397,7 +400,7 @@
       "energy_kcal": 1400,
       "protein_g": 58,
       "fat_g": 40,
-      "omega3_g": 1.0,
+      "omega3_g": 1.1,
       "omega6_g": 11,
       "carbohydrate_g": 200,
       "fiber_g": 20,
